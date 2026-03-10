@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "8f8e8e8e-8e8e-8e8e-8e8e-8e8e8e8e8e8e",
+		"name": "SAP BAPI Collection",
+		"description": "A collection to call SAP BAPIs via SOAP Web Services.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post G/L Entry (BAPI_ACC_DOCUMENT_POST)",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{sap-password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{sap-username}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:sap-com:document:sap:rfc:functions\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <urn:BAPI_ACC_DOCUMENT_POST>\r\n         <DOCUMENTHEADER>\r\n            <OBJ_TYPE>IDOC</OBJ_TYPE>\r\n            <USERNAME>{{sap-username}}</USERNAME>\r\n            <HEADER_TXT>POSTMAN TEST</HEADER_TXT>\r\n            <COMP_CODE>1000</COMP_CODE>\r\n            <DOC_DATE>2023-10-27</DOC_DATE>\r\n            <PSTNG_DATE>2023-10-27</PSTNG_DATE>\r\n            <DOC_TYPE>SA</DOC_TYPE>\r\n            <REF_DOC_NO>POSTMAN001</REF_DOC_NO>\r\n         </DOCUMENTHEADER>\r\n         <ACCOUNTGL>\r\n            <!-- Debit Line Item -->\r\n            <item>\r\n               <ITEMNO_ACC>0000000001</ITEMNO_ACC>\r\n               <GL_ACCOUNT>0000400000</GL_ACCOUNT>\r\n               <ITEM_TEXT>Debit Entry</ITEM_TEXT>\r\n               <COMP_CODE>1000</COMP_CODE>\r\n            </item>\r\n            <!-- Credit Line Item -->\r\n            <item>\r\n               <ITEMNO_ACC>0000000002</ITEMNO_ACC>\r\n               <GL_ACCOUNT>0000100000</GL_ACCOUNT>\r\n               <ITEM_TEXT>Credit Entry</ITEM_TEXT>\r\n               <COMP_CODE>1000</COMP_CODE>\r\n            </item>\r\n         </ACCOUNTGL>\r\n         <CURRENCYAMOUNT>\r\n            <!-- Debit Amount -->\r\n            <item>\r\n               <ITEMNO_ACC>0000000001</ITEMNO_ACC>\r\n               <CURRENCY>USD</CURRENCY>\r\n               <AMT_DOCCUR>100.00</AMT_DOCCUR>\r\n            </item>\r\n            <!-- Credit Amount (Note the negative sign) -->\r\n            <item>\r\n               <ITEMNO_ACC>0000000002</ITEMNO_ACC>\r\n               <CURRENCY>USD</CURRENCY>\r\n               <AMT_DOCCUR>-100.00</AMT_DOCCUR>\r\n            </item>\r\n         </CURRENCYAMOUNT>\r\n      </urn:BAPI_ACC_DOCUMENT_POST>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{sap-url}}",
+					"host": [
+						"{{sap-url}}"
+					]
+				},
+				"description": "Posts an accounting document to SAP using BAPI_ACC_DOCUMENT_POST. Requires the BAPI to be exposed as a SOAP web service via SOAMANAGER."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "sap-url",
+			"value": "http://<sap-host>:<port>/sap/bc/srt/rfc/sap/bapi_acc_document_post/..."
+		},
+		{
+			"key": "sap-username",
+			"value": "YOUR_USERNAME"
+		},
+		{
+			"key": "sap-password",
+			"value": "YOUR_PASSWORD"
+		}
+	]
+}
