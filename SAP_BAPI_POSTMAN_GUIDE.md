@@ -115,6 +115,8 @@ The following is a sample SOAP request to post a G/L entry with two line items (
 
 ## Troubleshooting
 
-- **Balances in Transaction Currency**: Ensure that the sum of `AMT_DOCCUR` in `CURRENCYAMOUNT` equals zero.
+- **Error RW 33 - Balance in Transaction Currency**: This is a common error (e.g., `Balance in Transaction Currency 0.01 (AED)`).
+    - **Cause**: SAP requires that the sum of all `AMT_DOCCUR` values in the `CURRENCYAMOUNT` table must be exactly zero.
+    - **Fix**: Check all line items. Even a 0.01 difference will cause this error. Ensure that your debit amounts (positive) and credit amounts (negative) balance perfectly.
 - **Account Determination**: Ensure the G/L accounts are valid for the company code and document type.
 - **Leading Zeros**: SAP often expects G/L accounts and Customer/Vendor numbers to be 10 digits long, padded with leading zeros (e.g., `0000123456`).
