@@ -1,6 +1,6 @@
 # SAP HCM ABAP Bulk Upload Guide
 
-This guide describes how to use the `ZHR_INFOTYPE_BULK_UPLOAD` program to perform bulk uploads for Infotypes 0008, 0014, and 0015.
+This guide describes how to use the `ZHR_INFOTYPE_BULK_UPLOAD` program to perform bulk uploads for Infotypes 0008, 0014, 0015, and 2010.
 
 ## Program Overview
 
@@ -39,6 +39,15 @@ Columns:
 3.  `ENDDA` (Payment Date - YYYYMMDD)
 4.  `LGART` (Wage Type)
 5.  `BETRG` (Amount)
+
+### Infotype 2010 (Employee Remuneration Info)
+Columns:
+1.  `PERNR` (Personnel Number - 8 digits)
+2.  `BEGDA` (Start Date - YYYYMMDD)
+3.  `ENDDA` (End Date - YYYYMMDD)
+4.  `LGART` (Wage Type)
+5.  `BETRG` (Amount)
+6.  `ANZHL` (Number/Unit)
 
 ## How to Run
 

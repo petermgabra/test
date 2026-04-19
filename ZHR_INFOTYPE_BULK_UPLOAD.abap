@@ -26,7 +26,9 @@ DATA: gt_p0008 TYPE TABLE OF p0008,
       gt_p0014 TYPE TABLE OF p0014,
       gs_p0014 TYPE p0014,
       gt_p0015 TYPE TABLE OF p0015,
-      gs_p0015 TYPE p0015.
+      gs_p0015 TYPE p0015,
+      gt_p2010 TYPE TABLE OF p2010,
+      gs_p2010 TYPE p2010.
 
 TYPES: BEGIN OF ty_results,
          pernr TYPE pernr_d,
@@ -43,7 +45,8 @@ SELECTION-SCREEN BEGIN OF BLOCK b1 WITH FRAME TITLE TEXT-001.
   SELECTION-SCREEN SKIP.
   PARAMETERS: p_0008 RADIOBUTTON GROUP r1 DEFAULT 'X',
               p_0014 RADIOBUTTON GROUP r1,
-              p_0015 RADIOBUTTON GROUP r1.
+              p_0015 RADIOBUTTON GROUP r1,
+              p_2010 RADIOBUTTON GROUP r1.
 SELECTION-SCREEN END OF BLOCK b1.
 
 *--- F4 for File Path ---*
@@ -73,6 +76,8 @@ START-OF-SELECTION.
     gv_infty = '0014'.
   ELSEIF p_0015 = 'X'.
     gv_infty = '0015'.
+  ELSEIF p_2010 = 'X'.
+    gv_infty = '2010'.
   ENDIF.
 
   PERFORM upload_file.
@@ -157,6 +162,17 @@ FORM parse_data.
         READ TABLE lt_fields INTO gs_p0015-betrg INDEX 5.
         gs_p0015-subty = gs_p0015-lgart. " Subtype is Wage Type
         APPEND gs_p0015 TO gt_p0015.
+
+      WHEN '2010'.
+        CLEAR gs_p2010.
+        READ TABLE lt_fields INTO gs_p2010-pernr INDEX 1.
+        READ TABLE lt_fields INTO gs_p2010-begda INDEX 2.
+        READ TABLE lt_fields INTO gs_p2010-endda INDEX 3.
+        READ TABLE lt_fields INTO gs_p2010-lgart INDEX 4.
+        READ TABLE lt_fields INTO gs_p2010-betrg INDEX 5.
+        READ TABLE lt_fields INTO gs_p2010-anzhl INDEX 6.
+        gs_p2010-subty = gs_p2010-lgart. " Subtype is Wage Type
+        APPEND gs_p2010 TO gt_p2010.
     ENDCASE.
   ENDLOOP.
 ENDFORM.
@@ -178,6 +194,11 @@ FORM process_records.
     WHEN '0015'.
       LOOP AT gt_p0015 INTO gs_p0015.
         PERFORM call_infotype_operation USING gs_p0015-pernr gv_infty gs_p0015-subty gs_p0015.
+      ENDLOOP.
+
+    WHEN '2010'.
+      LOOP AT gt_p2010 INTO gs_p2010.
+        PERFORM call_infotype_operation USING gs_p2010-pernr gv_infty gs_p2010-subty gs_p2010.
       ENDLOOP.
   ENDCASE.
 
